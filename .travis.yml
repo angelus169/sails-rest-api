@@ -1,0 +1,16 @@
+sudo: required
+
+language: node
+
+services:
+  - docker
+
+script:
+  - docker build -t angelus169/sail-rest-api:latest .
+
+after_success:
+  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
+      docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}" ;
+      docker push angelus169/sail-rest-api:latest ;
+    fi
+
